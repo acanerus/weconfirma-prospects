@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weconfirma Prospect Cards</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #e6eaf2;
+      --accent: #1d4ed8;
+      --tier1: #dc2626;
+      --tier2: #ea580c;
+      --tier3: #ca8a04;
+      --shadow: 0 10px 30px rgba(23, 32, 51, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .app {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(245, 247, 251, 0.96);
+      backdrop-filter: blur(8px);
+      padding: 12px 0 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.35rem;
+    }
+
+    .sub {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0 2px;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+    }
+
+    .list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .company {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 3px;
+    }
+
+    .badge {
+      min-width: 74px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: white;
+    }
+
+    .tier-1 { background: var(--tier1); }
+    .tier-2 { background: var(--tier2); }
+    .tier-3 { background: var(--tier3); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .section {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fcfdff;
+    }
+
+    .label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .value {
+      font-size: 0.94rem;
+    }
+
+    .icebreaker {
+      background: #eef4ff;
+      border-color: #d8e6ff;
+    }
+
+    .contacts ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+    }
+
+    .contacts li {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      font-size: 0.92rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .secondary {
+      background: #eef2f7;
+      color: var(--text);
+    }
+
+    .footer-note {
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.82rem;
+      padding: 16px 0 6px;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 14px;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      background: white;
+    }
+
+    @media (min-width: 680px) {
+      .toolbar {
+        grid-template-columns: 1.4fr 1fr 1fr;
+      }
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <h1>Weconfirma Prospect Cards</h1>
+      <p class="sub">Mobile-ready view for eMerge outreach. Search, filter, and open each prospect card fast on-site.</p>
+      <div class="toolbar">
+        <input id="search" type="text" placeholder="Search company, segment, booth..." />
+        <select id="tierFilter">
+          <option value="all">All tiers</option>
+          <option value="Tier 1">Tier 1</option>
+          <option value="Tier 2">Tier 2</option>
+          <option value="Tier 3">Tier 3</option>
+        </select>
+        <select id="segmentFilter">
+          <option value="all">All segments</option>
+        </select>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+
+    <div class="list" id="list"></div>
+    <div class="footer-note">Built for quick mobile booth conversations.</div>
+  </div>
+
+  <script>
+    const prospects = [
+      {
+        id: '001',
+        company: 'EasyInterviews.AI',
+        booth: 'AI5',
+        segment: 'AI / Growth',
+        score: 7.5,
+        tier: 'Tier 2',
+        whyThem: 'Hiring and talent pipeline alignment.',
+        connection: 'JA prepares students for real careers and workforce readiness.',
+        valueProposition: 'Early talent exposure and employer branding.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Are you thinking about connecting with future talent earlier, like high school level?',
+        ask: 'Intro call and program integration.',
+        notes: ''
+      },
+      {
+        id: '002',
+        company: 'Datawalt',
+        booth: 'AI4',
+        segment: 'AI / Data',
+        score: 8.2,
+        tier: 'Tier 1',
+        whyThem: 'Data-driven decision making has strong fit with simulation-based learning.',
+        connection: 'Finance Park teaches students budgeting and financial decision behavior.',
+        valueProposition: 'Student data simulation tie-in and strong education branding.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Do you see younger generations becoming more data-driven in how they make decisions?',
+        ask: 'Sponsorship and data collaboration.',
+        notes: ''
+      },
+      {
+        id: '003',
+        company: 'AgentCloak',
+        booth: '333',
+        segment: 'AI / Security',
+        score: 7.8,
+        tier: 'Tier 2',
+        whyThem: 'Digital identity and trust are increasingly relevant to younger users.',
+        connection: 'JA helps students understand responsible financial behavior and real-world choices.',
+        valueProposition: 'Trust-based community exposure and youth awareness angle.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Are you thinking at all about digital identity education for younger users?',
+        ask: 'Awareness partnership.',
+        notes: ''
+      },
+      {
+        id: '004',
+        company: 'Servicebots.ai',
+        booth: '418',
+        segment: 'AI / Automation',
+        score: 7.9,
+        tier: 'Tier 2',
+        whyThem: 'Automation and the future of work are highly relevant to student readiness.',
+        connection: 'JA exposes students to real-world work environments and career pathways.',
+        valueProposition: 'Workforce exposure and brand awareness in education.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'How are you thinking about the future workforce as AI changes work?',
+        ask: 'Event integration.',
+        notes: ''
+      },
+      {
+        id: '005',
+        company: 'CleverFi',
+        booth: 'SMB7',
+        segment: 'Fintech / SMB',
+        score: 8.6,
+        tier: 'Tier 1',
+        whyThem: 'Direct financial services fit with JA mission.',
+        connection: 'JA teaches financial literacy and practical budgeting through Finance Park.',
+        valueProposition: 'Direct student exposure and stronger brand trust in the community.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Are you currently targeting younger users for financial products or education?',
+        ask: 'Sponsorship and program integration.',
+        notes: ''
+      },
+      {
+        id: '006',
+        company: 'Countify',
+        booth: 'AI3',
+        segment: 'AI / Analytics',
+        score: 8.0,
+        tier: 'Tier 1',
+        whyThem: 'Strong analytics angle that supports financial decision learning.',
+        connection: 'Finance Park is centered on budgeting, trade-offs, and financial simulations.',
+        valueProposition: 'Potential integration into finance education experiences.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Do you see opportunities in financial education for younger audiences?',
+        ask: 'Program collaboration.',
+        notes: ''
+      },
+      {
+        id: '007',
+        company: 'Elevation AI',
+        booth: '408',
+        segment: 'AI / Growth',
+        score: 7.6,
+        tier: 'Tier 2',
+        whyThem: 'Growth-stage company with likely interest in visibility and positioning.',
+        connection: 'JA supports entrepreneurial thinking and future-ready students.',
+        valueProposition: 'Startup storytelling and community brand positioning.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Are you focused more on growth or brand visibility right now?',
+        ask: 'Intro call.',
+        notes: ''
+      },
+      {
+        id: '008',
+        company: 'Organz AI',
+        booth: 'SMB36',
+        segment: 'AI / SMB',
+        score: 7.4,
+        tier: 'Tier 2',
+        whyThem: 'Productivity and organization tools can align with student readiness.',
+        connection: 'JA prepares students for real-world work habits and decision-making.',
+        valueProposition: 'Future user awareness and education brand exposure.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'Do you see students as future users of productivity tools like yours?',
+        ask: 'Awareness partnership.',
+        notes: ''
+      },
+      {
+        id: '009',
+        company: 'Socially Loud',
+        booth: 'SMB50',
+        segment: 'Marketing / Growth',
+        score: 8.3,
+        tier: 'Tier 1',
+        whyThem: 'Audience growth expertise and likely strong interest in youth outreach.',
+        connection: 'JA offers local community access and youth-centered programming.',
+        valueProposition: 'Brand visibility through trusted local education programs.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'How are you currently reaching younger audiences in Miami?',
+        ask: 'Event sponsorship.',
+        notes: ''
+      },
+      {
+        id: '010',
+        company: 'Quartermaster AI',
+        booth: '463',
+        segment: 'AI / Decision Tech',
+        score: 8.1,
+        tier: 'Tier 1',
+        whyThem: 'Decision systems align well with budgeting and simulation learning.',
+        connection: 'Finance Park teaches students how to make trade-offs and informed choices.',
+        valueProposition: 'Natural fit for financial decision simulation storytelling.',
+        ceoName: '',
+        ceoStatus: 'Target',
+        closerName: '',
+        closerTitle: '',
+        closerStatus: 'Find On-Site',
+        icebreaker: 'How do you think people learn decision-making best?',
+        ask: 'Program integration.',
+        notes: ''
+      }
+    ];
+
+    const listEl = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+    const tierFilterEl = document.getElementById('tierFilter');
+    const segmentFilterEl = document.getElementById('segmentFilter');
+    const statsEl = document.getElementById('stats');
+
+    const uniqueSegments = [...new Set(prospects.map(p => p.segment))].sort();
+    uniqueSegments.forEach(segment => {
+      const option = document.createElement('option');
+      option.value = segment;
+      option.textContent = segment;
+      segmentFilterEl.appendChild(option);
+    });
+
+    function tierClass(tier) {
+      if (tier === 'Tier 1') return 'tier-1';
+      if (tier === 'Tier 2') return 'tier-2';
+      return 'tier-3';
+    }
+
+    function renderStats(items) {
+      const tier1 = items.filter(i => i.tier === 'Tier 1').length;
+      const tier2 = items.filter(i => i.tier === 'Tier 2').length;
+      const tier3 = items.filter(i => i.tier === 'Tier 3').length;
+      statsEl.innerHTML = `
+        <div class="chip">Visible: ${items.length}</div>
+        <div class="chip">Tier 1: ${tier1}</div>
+        <div class="chip">Tier 2: ${tier2}</div>
+        <div class="chip">Tier 3: ${tier3}</div>
+      `;
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard.'));
+    }
+
+    function render() {
+      const q = searchEl.value.trim().toLowerCase();
+      const tier = tierFilterEl.value;
+      const segment = segmentFilterEl.value;
+
+      const filtered = prospects.filter(p => {
+        const matchesSearch = [p.id, p.company, p.booth, p.segment, p.whyThem, p.connection, p.icebreaker]
+          .join(' ')
+          .toLowerCase()
+          .includes(q);
+        const matchesTier = tier === 'all' || p.tier === tier;
+        const matchesSegment = segment === 'all' || p.segment === segment;
+        return matchesSearch && matchesTier && matchesSegment;
+      });
+
+      renderStats(filtered);
+
+      if (!filtered.length) {
+        listEl.innerHTML = '<div class="empty">No prospect matches your current search or filters.</div>';
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(p => `
+        <article class="card">
+          <div class="card-top">
+            <div>
+              <h2 class="company">#${p.id} · ${p.company}</h2>
+              <div class="meta">Booth ${p.booth} · ${p.segment} · Score ${p.score}/10</div>
+            </div>
+            <div class="badge ${tierClass(p.tier)}">${p.tier}</div>
+          </div>
+
+          <div class="grid">
+            <div class="section">
+              <div class="label">Why Them</div>
+              <div class="value">${p.whyThem}</div>
+            </div>
+            <div class="section">
+              <div class="label">JA Connection</div>
+              <div class="value">${p.connection}</div>
+            </div>
+            <div class="section">
+              <div class="label">Value Proposition</div>
+              <div class="value">${p.valueProposition}</div>
+            </div>
+            <div class="section">
+              <div class="label">Ask</div>
+              <div class="value">${p.ask}</div>
+            </div>
+          </div>
+
+          <div class="section contacts">
+            <div class="label">Contacts</div>
+            <ul>
+              <li><strong>CEO / Founder:</strong> ${p.ceoName || '—'} <span style="color:#667085;">(${p.ceoStatus})</span></li>
+              <li><strong>Closer:</strong> ${p.closerName || '—'} ${p.closerTitle ? '· ' + p.closerTitle : ''} <span style="color:#667085;">(${p.closerStatus})</span></li>
+            </ul>
+          </div>
+
+          <div class="section icebreaker">
+            <div class="label">Icebreaker</div>
+            <div class="value">“${p.icebreaker}”</div>
+          </div>
+
+          <div class="actions">
+            <button class="primary" onclick="copyText('${`Company: ${p.company}\nBooth: ${p.booth}\nTier: ${p.tier}\nScore: ${p.score}/10\nWhy Them: ${p.whyThem}\nJA Connection: ${p.connection}\nValue Proposition: ${p.valueProposition}\nIcebreaker: ${p.icebreaker}\nAsk: ${p.ask}`.replace(/'/g, "\\'")}')">Copy Card</button>
+            <button class="secondary" onclick="copyText('${p.icebreaker.replace(/'/g, "\\'")}')">Copy Icebreaker</button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    searchEl.addEventListener('input', render);
+    tierFilterEl.addEventListener('change', render);
+    segmentFilterEl.addEventListener('change', render);
+
+    render();
+    window.copyText = copyText;
+  </script>
+</body>
+</html>
